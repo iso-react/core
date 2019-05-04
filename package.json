@@ -1,0 +1,27 @@
+{
+  "name": "@iso-react/core",
+  "version": "1.0.0",
+  "description": "Core library for @iso-react projects",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/iso-react/core.git"
+  },
+  "keywords": [
+    "isomorphic",
+    "react",
+    "universal",
+    "server",
+    "side",
+    "rendering"
+  ],
+  "author": "Alex Henderson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iso-react/core/issues"
+  },
+  "homepage": "https://github.com/iso-react/core#readme"
+}
