@@ -1,0 +1,45 @@
+version: 2.0
+
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/node:8
+
+jobs:
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+
+      - run: npm ci
+      - run: 
+          name: Run Tests
+          command: npm test
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
+  release:
+    <<: *defaults 
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+      - run:
+          name: Semantic Release
+          command: NPM_TOKEN=${NPM_TOKEN} GH_TOKEN=${GH_TOKEN} npx semantic-release
+workflows:
+  version: 2
+  test_deploy:
+    jobs:
+      - test
+      - release:
+          requires:
+            - test

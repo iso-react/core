@@ -4,7 +4,7 @@
   "description": "Core library for @iso-react projects",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Warning: no test specified\""
   },
   "repository": {
     "type": "git",
@@ -23,5 +23,15 @@
   "bugs": {
     "url": "https://github.com/iso-react/core/issues"
   },
-  "homepage": "https://github.com/iso-react/core#readme"
+  "homepage": "https://github.com/iso-react/core#readme",
+  "devDependencies": {
+    "@semantic-release/commit-analyzer": "^6.1.0",
+    "@semantic-release/github": "^5.2.10",
+    "@semantic-release/npm": "^5.1.4",
+    "@semantic-release/release-notes-generator": "^7.1.4",
+    "semantic-release": "^16.0.0-beta.18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }
