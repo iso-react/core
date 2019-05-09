@@ -10,6 +10,7 @@ import HTML from '../components/html';
 export type GetAppResult = {
   app: string;
   initialState?: Object;
+  config?: Object;
 };
 
 export type RouteContext = {
@@ -30,11 +31,11 @@ const renderApp = (getApp: GetAppFn, document = HTML) => async (req: express.Req
   const context: RouteContext = {
     status: 200,
   };
-  const {app, initialState} = await getApp(req, res, context);
+  const {app, initialState, config} = await getApp(req, res, context);
   const helmet = Helmet.renderStatic();
   const Document = document;
   const rendered = ReactDOM.renderToString(
-    <Document helmet={helmet} scripts={scripts} initialState={initialState}>
+    <Document helmet={helmet} scripts={scripts} initialState={initialState} config={config}>
       {app}
     </Document>
   );
