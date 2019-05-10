@@ -36,7 +36,7 @@ const HTML = ({helmet, children, scripts, initialState, config}: HTMLProps) => {
             type="text/javascript"
             dangerouslySetInnerHTML={{
               __html: `window.__INITIAL_STATE__=${JSON.stringify(
-                initialState
+                JSON.parse(JSON.stringify(initialState))
               ).replace(/</g, '\\u003c')}`,
             }}
           />
@@ -45,10 +45,9 @@ const HTML = ({helmet, children, scripts, initialState, config}: HTMLProps) => {
           <script
             type="text/javascript"
             dangerouslySetInnerHTML={{
-              __html: `window.__CONFIG__=${JSON.stringify(config).replace(
-                /</g,
-                '\\u003c'
-              )}`,
+              __html: `window.__CONFIG__=${JSON.stringify(
+                JSON.parse(JSON.stringify(config))
+              ).replace(/</g, '\\u003c')}`,
             }}
           />
         )}
