@@ -6,6 +6,26 @@ import chalk from 'chalk';
 import renderApp, {GetAppFn} from '../middlewares/render-app';
 import HTML, {HTMLProps} from '../components/html';
 
+const originalDebug = console.debug;
+const originalLog = console.log;
+const originalError = console.error;
+
+const error = (...args) => {
+  originalError(chalk.red(...args));
+};
+
+const debug = (...args) => {
+  if (
+    String(process.env.NODE_ENV) === 'development' ||
+    String(process.env.APP_ENV) !== 'production'
+  ) {
+    originalDebug(chalk.gray(...args));
+  }
+};
+
+console.debug = debug;
+console.error = error;
+
 export type IsoServerOpts = {
   html?: (HTMLProps) => JSX.Element;
   port?: number;
@@ -77,26 +97,14 @@ class IsoServer {
 
   _log(req, res, next) {
     const start = new Date().getTime();
-    const actualLog = console.log;
-    const actualError = console.error;
-    const deferred = [];
-    const defer = fn => {
-      deferred.push(fn);
-    };
-    console.debug = (...args) => defer(this._debug.bind(this, ...args));
-    console.log = (...args) => defer(this._debug.bind(this, ...args));
-    console.error = (...args) => defer(this._debug.bind(this, ...args));
 
     res.on('finish', () => {
       const time = new Date().getTime() - start;
-      console.log = actualLog;
-      console.error = actualError;
       console.log(
         `${req.method} ${req.url} -> ${this._formatStatus(
           res.statusCode
         )} (${time}ms)`
       );
-      deferred.forEach(fn => fn());
     });
 
     next();

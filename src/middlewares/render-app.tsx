@@ -41,7 +41,7 @@ const renderApp = (getApp: GetAppFn, document = HTML) => async (req: express.Req
   );
 
   res.status(context.status);
-
+  console.log(context);
   switch (context.action) {
     case 'REPLACE':
       return res.redirect(context.url);
