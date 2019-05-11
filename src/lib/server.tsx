@@ -108,3 +108,5 @@ class IsoServer {
     }
   }
 }
+
+export default IsoServer;
