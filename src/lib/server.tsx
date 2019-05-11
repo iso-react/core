@@ -87,9 +87,8 @@ class IsoServer {
     console.log = (...args) => defer(this._debug.bind(this, ...args));
     console.error = (...args) => defer(this._debug.bind(this, ...args));
 
-    next();
     res.on('finish', () => {
-      const time = start - new Date().getTime();
+      const time = new Date().getTime() - start;
       console.log = actualLog;
       console.error = actualError;
       console.log(
@@ -99,6 +98,8 @@ class IsoServer {
       );
       deferred.forEach(fn => fn());
     });
+
+    next();
   }
 
   _formatStatus(status) {
