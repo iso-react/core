@@ -50,6 +50,8 @@
     "access": "public"
   },
   "dependencies": {
+    "chalk": "^2.4.2",
+    "express": "^4.16.4",
     "html-react-parser": "^0.7.0",
     "react-helmet": "^5.2.1"
   },
