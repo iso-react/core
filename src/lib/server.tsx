@@ -79,6 +79,7 @@ class IsoServer {
     const start = new Date().getTime();
     const actualLog = console.log;
     const actualError = console.error;
+    const deferred = [];
     const defer = fn => {
       deferred.push(fn);
     };
