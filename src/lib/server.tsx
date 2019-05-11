@@ -76,6 +76,7 @@ class IsoServer {
   }
 
   _log(req, res, next) {
+    const start = new Date().getTime();
     let deferred = [];
     const actualLog = console.log;
     const actualError = console.error;
@@ -87,10 +88,28 @@ class IsoServer {
     console.error = (...args) => defer(this._debug.bind(this, ...args));
 
     next();
+    const time = start - new Date().getTime();
     console.log = actualLog;
     console.error = actualError;
-    console.log(`${req.method} ${req.url} -> ${res.statusCode}`);
+    console.log(
+      `${req.method} ${req.url} -> ${this._formatStatus(
+        res.statusCode
+      )} (${time}ms)`
+    );
     deferred.forEach(fn => fn());
+  }
+
+  _formatStatus(status) {
+    if (status >= 200 && status < 300) {
+      return chalk.green(status);
+    }
+    if (status >= 300 && status < 400) {
+      return chalk.yellowBright(status);
+    }
+    if (status >= 400 && status < 500) {
+      return chalk.yellow(status);
+    }
+    return chalk.red(status);
   }
 
   _listenCallback() {
