@@ -10,6 +10,10 @@ const originalDebug = console.debug;
 const originalLog = console.log;
 const originalError = console.error;
 
+const timestamp = () => {
+  return new Date().toISOString()
+}
+
 const error = (...args) => {
   originalError(chalk.red(...args));
 };
@@ -19,7 +23,7 @@ const debug = (...args) => {
     String(process.env.NODE_ENV) === 'development' ||
     String(process.env.APP_ENV) !== 'production'
   ) {
-    originalDebug(chalk.gray(...args));
+    originalDebug(`${timestamp()} ${chalk.blueBright.bgBlack('Debug:')} ${chalk.gray(...args)}`);
   }
 };
 
